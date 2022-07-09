@@ -20,7 +20,7 @@ class Apex_API:
             level=logging.INFO,
             format="[%(levelname)s] %(asctime)s %(message)s",
             datefmt="%Y-%m-%d %I:%M:%S %p",  # this defines the date format for the (asctime) part above
-            handlers=[logging.FileHandler("logs/example.log"), logging.StreamHandler()],
+            handlers=[logging.StreamHandler()],
             # this means store logs to a example.log file as well as print them to the terminal
         )
         logging.getLogger("requests").setLevel(
