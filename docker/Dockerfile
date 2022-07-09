@@ -28,5 +28,6 @@ USER appuser
 
 COPY src/app.py ./app.py
 COPY src/utils.py ./utils.py
+COPY src/exceptions.py ./exceptions.py
 
 CMD ["python3", "app.py"]
