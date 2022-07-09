@@ -1,0 +1,2 @@
+class ApexApiException(BaseException):
+    pass
