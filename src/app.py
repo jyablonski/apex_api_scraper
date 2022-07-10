@@ -10,6 +10,6 @@ if __name__ == "__main__":
 
     maps = api.get_apex_map_rotation()
 
-    my_data = api.get_apex_player_stats("kickn97")
+    # my_data = api.get_apex_player_stats("kickn97")
 
-    print(my_data)
+    print(maps)
