@@ -22,4 +22,4 @@ jobs:
     - name: Deploy to S3
       env:
         aws_bucket: ${{ secrets.AWS_BUCKET }}
-      run: aws s3 sync ./src/ s3://$aws_bucket --delete
+      run: aws s3 sync ./src/ s3://$aws_bucket
