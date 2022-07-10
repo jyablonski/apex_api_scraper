@@ -19,7 +19,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
         aws-region: us-east-1
 
-    - name: Deploy static site to S3 bucket
-      with:
+    - name: Deploy to S3
+      env:
         aws_bucket: ${{ secrets.AWS_BUCKET }}
       run: aws s3 sync ./src/ s3://${{ aws_bucket }} --delete
