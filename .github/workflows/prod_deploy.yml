@@ -3,35 +3,23 @@ name: Apex API Scraper Deploy to S3
 on:
   push:
     branches:
-      - master
+    - master
 
 jobs:
-  preview:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: chrnorm/deployment-action@releases/v1
-        name: Create GitHub deployment
-        id: test
-        with:
-          token: ${{ secrets.GITHUB_TOKEN}}
-          description: 'Preview my app'
-          environment: preview
+    - name: Checkout
+      uses: actions/checkout@v1
 
-      - uses: shallwefootball/s3-upload-action@master
-        name: Upload S3
-        id: S3
-        with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET }}
-          source_dir: 'src'
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        aws-region: us-east-1
 
-      - name: Update deployment status (success)
-        if: success()
-        uses: chrnorm/deployment-status@releases/v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target_url: https://aws-bucket.s3.ap-northeast-2.amazonaws.com/${{steps.S3.outputs.object_key}}/index.html
-          state: 'success'
-          deployment_id: ${{ steps.test.outputs.deployment_id }}
+    - name: Deploy static site to S3 bucket
+      with:
+        aws_bucket: ${{ secrets.AWS_BUCKET }}
+      run: aws s3 sync ./src/ s3://${{ aws_bucket }} --delete
